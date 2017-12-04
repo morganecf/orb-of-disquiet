@@ -9,8 +9,4 @@ morg_user_id
 slack_credentials.json
 sentiment_model_ids.json
 ideas.txt
-prediction-server/codegen_score_csv.jar
-prediction-server/codegen_score_row.jar
-prediction-server/codegen/*
-prediction-server/codegen/*/
-!prediction-server/codegen/prediction_server/
+copy_prediction_server.sh

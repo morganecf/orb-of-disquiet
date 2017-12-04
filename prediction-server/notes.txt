@@ -1,0 +1,14 @@
+To initialize project & compile (inside prediction_server/ and make sure workon dev):
+  mvn initialize
+  mvn package
+
+To run jar file:
+  # prediction server
+  java -jar prediction_server.jar -m 5a207fa7eeb38c357a32689f.jar
+
+  # original jar - takes input string
+  java -jar codegen_score_row.jar -m 5a207fa7eeb38c357a32689f.jar -s 'I am so happy'
+
+To recompile: bash update.sh
+
+5a207fa7eeb38c357a32689f : Rotten Tomatoes sentiment (regression)  - Advanced GLM Blender trained at nearly 100%
