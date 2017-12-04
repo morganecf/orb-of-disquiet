@@ -1,0 +1,3 @@
+datarobot
+slackclient
+phue

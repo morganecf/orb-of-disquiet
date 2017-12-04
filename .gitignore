@@ -1,0 +1,8 @@
+*.pyc
+*.csv
+.ipynb_checkpoints
+dr_api_token
+morg_user_id
+slack_credentials.json
+sentiment_model_ids.json
+ideas.txt

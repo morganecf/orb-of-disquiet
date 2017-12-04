@@ -1,0 +1,19 @@
+Chauncy st bridge IP: 10.0.0.196
+   Go to www.meethue.com/api/nupnp to get current IP
+
+Use http://10.0.0.196/debug/clip.html to debug
+
+Need to press link button (on bridge) before connecting
+
+To add new user: send /api POST request with message body: {"devicetype":"orb#morgane"} (for example -- orb is name of app and morgane is device/user). Then press link button and send.
+
+color/api reference here: https://developers.meethue.com/documentation/core-concepts
+
+Testing tokens found here [legacy, though]: https://api.slack.com/custom-integrations/legacy-tokens
+
+Datasets for sentiment analysis:
+- Stanford sentiment (automatically curated tweets using emoticons)
+- UMichigan Kaggle competition -- social media, collection information unknwon, seems to be all about brokeback mountain, harry potter, or davinci code (https://inclass.kaggle.com/c/si650winter11)
+- UCI ML repo: 3000 (500 positive/negative from each website) from imdb/amazon/yelp, handpicked (https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences)
+- rotten tomatoes sentiment dataset (includes parsed sub-phrases): https://nlp.stanford.edu/sentiment/
+
