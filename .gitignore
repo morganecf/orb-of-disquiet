@@ -1,5 +1,8 @@
 *.pyc
 *.csv
+data/*.tsv
+data/*.txt
+data/*.json
 .ipynb_checkpoints
 dr_api_token
 morg_user_id
