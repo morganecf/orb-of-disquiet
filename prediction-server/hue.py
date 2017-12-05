@@ -72,8 +72,8 @@ class Orb:
     self.sentiment_values.append(sentiment)
     self.avg_sentiment = np.average(self.sentiment_values)
 
-    if len(self.sentiment_values) > 3:
-      self.sentiment_values = []
+    if len(self.sentiment_values) > 2:
+      self.sentiment_values.pop(0)
 
     sentiment = self.avg_sentiment if use_average else sentiment
 
