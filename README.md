@@ -3,7 +3,7 @@ An emotionally sensitive Hue bulb.
 
 ### Run prediction server
 
-This will load the jar model and listen for incoming text.
+This will load the jar model and listen for incoming text. Jar is used instead of my own model because DR models are superior, but DR predictions are too slow for this use case.
 
 Sentiment models: `java jar -m 5a207fa7eeb38c357a32689f.jar`
 
