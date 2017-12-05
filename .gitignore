@@ -11,3 +11,6 @@ sentiment_model_ids.json
 ideas.txt
 copy_prediction_server.sh
 prediction-server/prediction_server/target/
+prediction-server/__pycache__/
+slack-bot/rtmbot.conf
+slack-bot/rtmbot.log

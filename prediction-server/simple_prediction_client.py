@@ -1,3 +1,4 @@
+import sys
 import time
 import socket
 
@@ -5,12 +6,16 @@ import socket
 Connects to simple Java prediction server to get a prediction on input text.
 '''
 
+try:
+  port = int(sys.argv[1])
+except IndexError:
+  port = 9000
+
 HOST = 'localhost';
-PORT = 9000;
 MAX_BYTES = 1024;
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((HOST, PORT))
+sock.connect((HOST, port))
 
 print('Type a sentence to get sentiment.')
 

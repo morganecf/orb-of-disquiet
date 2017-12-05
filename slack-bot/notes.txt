@@ -1,0 +1,1 @@
+To start up the bot, simply run: rtmbot

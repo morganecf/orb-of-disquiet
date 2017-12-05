@@ -11,4 +11,7 @@ To run jar file:
 
 To recompile: bash update.sh
 
-5a207fa7eeb38c357a32689f : Rotten Tomatoes sentiment (regression)  - Advanced GLM Blender trained at nearly 100%
+# NOTE: don't rename these to anything more friendly. Resolving classname based on com.datarobot.prediction.dr won't work.
+
+5a207fa7eeb38c357a32689f: Rotten Tomatoes sentiment (regression)  - Advanced GLM Blender trained at nearly 100%
+5a26b9a790db4f1c808e4b93: Hub vs. Twitter (classification) - Advanced GLM blender trained at 100%

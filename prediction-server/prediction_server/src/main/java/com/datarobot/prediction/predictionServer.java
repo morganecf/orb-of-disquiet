@@ -29,7 +29,6 @@ import org.apache.commons.cli.HelpFormatter;
 
 class PredictionServer {
 
-    private final int PORT = 9000;
     private final String STOP_CMD = "STOP";
 
     private ServerSocket server;
@@ -38,7 +37,9 @@ class PredictionServer {
     private PrintWriter out;
     private Predictor model;
 
-    public PredictionServer(String jarPath) {
+    public PredictionServer(String jarPath, int port) {
+        port = port;
+
         // Load model jar file
         URLClassLoader child;
         try {
@@ -67,7 +68,7 @@ class PredictionServer {
         }
 
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,19 +145,22 @@ class PredictionServer {
     public static void main(String[] args) throws Exception {
         Options options = new Options();
         options.addOption("m", true, "model jar path (e.g. 587984b1100d2b625744477b.jar)");
+        options.addOption("p", true, "port");
 
         try {
             CommandLineParser cliParser = new DefaultParser();
             CommandLine cmd = cliParser.parse(options, args);
-            String jarPath = cmd.getOptionValue("m");
 
-            PredictionServer server = new PredictionServer(jarPath);
+            String jarPath = cmd.getOptionValue("m", "9000");
+            int port = Integer.parseInt(cmd.getOptionValue("p"));
+
+            PredictionServer server = new PredictionServer(jarPath, port);
             server.run();
         } catch (Exception e) {
             System.out.println(e.toString());
             // Generate help statement
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "java -jar prediction-server.jar", options);
+            formatter.printHelp( "java -jar prediction_server.jar", options);
         }
     }
 }
