@@ -8,10 +8,10 @@ This will load the jar model and listen for incoming text. Jar is used instead o
 java -jar prediction_server.jar -m <model jar filename>.jar -p <port>
 ```  
 
-Rotten Tomatoes sentiment (regression GLM blender): `5a207fa7eeb38c357a32689f.jar`  
+Rotten Tomatoes sentiment (regression GLM blender - values 0 - 5): `5a207fa7eeb38c357a32689f.jar`  
 Rotten Tomatoes sentiment (classification): `<best-RT-classification-model.jar>`  
 Reddit sentiment: `<best-reddit-model.jar>`  
-Hub models: `5a26b9a790db4f1c808e4b93.jar`
+Hub model (classification GLM blender - with probabilities between 0 - 1): `5a26b9a790db4f1c808e4b93.jar`
 
 ### Simple Python client
 This fetches sentiment predictions on command line text input  
