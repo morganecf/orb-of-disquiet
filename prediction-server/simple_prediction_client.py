@@ -3,8 +3,6 @@ import socket
 
 '''
 Connects to simple Java prediction server to get a prediction on input text.
-
-NOTE: This is only working with python2.7 right now.
 '''
 
 HOST = 'localhost';
@@ -17,10 +15,11 @@ sock.connect((HOST, PORT))
 print('Type a sentence to get sentiment.')
 
 while True:
-  text = raw_input()
-  sock.send(text + '\n')
+  text = input()
+  message = str.encode(text + '\n')
+  sock.send(message)
   pred = sock.recv(MAX_BYTES)
-  print('Prediction:', pred)
+  print('Prediction:', pred.decode().strip())
 
   if text == 'STOP':
     print('Stopping client')
