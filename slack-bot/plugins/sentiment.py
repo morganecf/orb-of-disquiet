@@ -16,17 +16,18 @@ MAX_BYTES = 1024;
 
 slack_credentials = json.load(open('../slack_credentials.json'))
 bot_id = slack_credentials['zorg_bot_id']
-channel_id = slack_credentials['zorg_testing_id']
+hub_channel_id = slack_credentials['blushing_orb_id']
+sentiment_channel_id = slack_credentials['orb_of_disquiet_id']
 
 hub_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hub_socket.connect((HOST, HUB_PORT))
 
 print('Connected to Hub prediction server')
 
-# rt_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# rt_socket.connect((HOST, RT_PORT))
+rt_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+rt_socket.connect((HOST, RT_PORT))
 
-# print('Connected to Rotten Tomatoes Sentiment prediction server')
+print('Connected to Rotten Tomatoes Sentiment prediction server')
 
 class OrbPlugin(Plugin):
   erotic_emojis = [
@@ -52,21 +53,25 @@ class OrbPlugin(Plugin):
     return emojis[index]
 
   @staticmethod
-  def format_output(prediction):
+  def format_hub_score(prediction):
     return 'Sexiness: {:.2f} / 10'.format(prediction)
 
-  def send_message(self, msg, thread_ts=None):
+  @staticmethod
+  def format_rt_score(prediction):
+    return 'Sentiment: {:.2f} / 10'.format(prediction)
+
+  def send_message(self, msg, channel, thread_ts=None):
     self.slack_client.api_call(
       'chat.postMessage',
-      channel=channel_id,
+      channel=channel,
       text=msg,
       username='zorgbot',
       thread_ts=thread_ts)
 
-  def add_emoji(self, emoji, ts):
+  def add_emoji(self, emoji, channel, ts):
     self.slack_client.api_call(
       'reactions.add',
-      channel=channel_id,
+      channel=channel,
       name=emoji,
       timestamp=ts)
 
@@ -84,7 +89,8 @@ class OrbPlugin(Plugin):
     return text
 
   def process_message(self, data):
-    is_right_channel = data['channel'] == channel_id
+    channel = data['channel']
+    is_right_channel = channel == hub_channel_id or channel == sentiment_channel_id
     is_bot = 'bot_id' in data or 'bot_id' in data.get('message', {})
 
     if is_right_channel and not is_bot:
@@ -94,11 +100,21 @@ class OrbPlugin(Plugin):
       if text and thread_id:
         text = self.clean_emojis(text)
         message = str.encode(text + '\n')
-        hub_socket.send(message)
-        prediction = hub_socket.recv(MAX_BYTES)
-        normalized = float(prediction.decode().strip()) * 10
-        output = OrbPlugin.format_output(normalized)
-        emoji = OrbPlugin.prediction_to_emoji(normalized, OrbPlugin.erotic_emojis)
-        self.send_message(output, thread_ts=thread_id)
-        self.add_emoji(emoji, thread_id)
+
+        if channel == hub_channel_id:
+          hub_socket.send(message)
+          prediction = hub_socket.recv(MAX_BYTES)
+          normalized = float(prediction.decode().strip()) * 10
+          emoji_set = OrbPlugin.erotic_emojis
+          output = OrbPlugin.format_hub_score(normalized)
+        else:
+          rt_socket.send(message)
+          prediction = rt_socket.recv(MAX_BYTES)
+          normalized = float(prediction.decode().strip()) * 2
+          emoji_set = OrbPlugin.sentiment_emojis
+          output = OrbPlugin.format_rt_score(normalized)
+
+        emoji = OrbPlugin.prediction_to_emoji(normalized, emoji_set)
+        self.send_message(output, channel, thread_ts=thread_id)
+        self.add_emoji(emoji, channel, thread_id)
         self.print_text(text, normalized)
