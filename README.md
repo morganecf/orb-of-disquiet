@@ -23,7 +23,7 @@ Predicts sentiment on incoming speech reognized by the Google Speech API.
 
 ### Slack --> Hue
 This fetches sentiment predictions on incoming Slack messages and changes Hue accordingly.  
-`python slack_sentiment_to_hue.py`
+`python slack_to_hue.py`
 
 ### Run responsive Slack Python client
 This fetches sentiment predictions on incoming Slack messages and sends them back to the channel  
