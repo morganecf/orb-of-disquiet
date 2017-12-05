@@ -38,5 +38,10 @@ python slack_to_hue.py
 ```  
 
 ### Run responsive Slack Python client
-This fetches sentiment predictions on incoming Slack messages and sends them back to the channel  
-TODO: probably need rtmbot 
+This predicts sentiment on incoming Slack messages. Posts sentiment score in a thread and adds an emoji to the evaluated message. :cold_sweat: :neutral_face: :heart_eyes:  
+
+In `slack-bot/`, simply run:  
+
+```
+rtmbot
+```
