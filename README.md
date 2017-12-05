@@ -1,5 +1,5 @@
 # The Orb of Disquiet
-An emotionally sensitive Hue bulb.
+An emotionally sensitive Hue bulb. Sentiment models predict sentiment on incoming data (speech or text) and change Hue color accordingly.  
 
 ### Run prediction server
 This will load the jar model and listen for incoming text. Jar is used instead of my own model because DR models are superior, but DR predictions via the API are too slow for this use case. Run the server with:  
@@ -8,10 +8,10 @@ This will load the jar model and listen for incoming text. Jar is used instead o
 java -jar prediction_server.jar -m <model jar filename>.jar
 ```  
 
-Rotten Tomatoes sentiment (regression GLM blender): `5a207fa7eeb38c357a32689f.jar`  
+Rotten Tomatoes sentiment (regression GLM blender): `rt_sentiment_regression_glm_blender.jar`  
 Rotten Tomatoes sentiment (classification): `<best-RT-classification-model.jar>`  
 Reddit sentiment: `<best-reddit-model.jar>`  
-Hub models: `<best-hub-model.jar>`
+Hub models: `hub_classification_glm_blender.jar`
 
 ### Simple Python client
 This fetches sentiment predictions on command line text input  
