@@ -1,12 +1,13 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import re
 import json
 import math
 import socket
+from termcolor import colored
 from rtmbot.core import Plugin, Job
 
-# TODO parse emojis
 
 HOST = 'localhost'
 RT_PORT = 9000
@@ -28,7 +29,7 @@ print('Connected to Hub prediction server')
 # print('Connected to Rotten Tomatoes Sentiment prediction server')
 
 class OrbPlugin(Plugin):
-  emojis = [
+  erotic_emojis = [
     'vom',
     'cold_sweat',
     'neutral_face',
@@ -36,11 +37,19 @@ class OrbPlugin(Plugin):
     'ahegao',
   ]
 
+  sentiment_emojis = [
+    'sob',
+    'slightly_frowning_face',
+    'neutral_face',
+    'slightly_smiling_face',
+    'grinning',
+  ]
+
   @staticmethod
-  def prediction_to_emoji(prediction):
+  def prediction_to_emoji(prediction, emojis):
     i = math.ceil(round(prediction) / 2)
     index = i - 1 if prediction >= 5 else i
-    return OrbPlugin.emojis[index]
+    return emojis[index]
 
   @staticmethod
   def format_output(prediction):
@@ -61,6 +70,19 @@ class OrbPlugin(Plugin):
       name=emoji,
       timestamp=ts)
 
+  def print_text(self, text, pred):
+    color = 'red' if pred > 5 else 'cyan'
+    print(colored(text, color), '\t', pred)
+
+  def clean_emojis(self, text):
+    text = text.strip()
+    emojis = re.findall(r'.*?(:\w+:)', text)
+    for i, emoji in enumerate(emojis):
+      cleaned = emoji.replace(':', '')
+      cleaned = ' '.join(cleaned.split('_'))
+      text = text.replace(emoji, cleaned)
+    return text
+
   def process_message(self, data):
     is_right_channel = data['channel'] == channel_id
     is_bot = 'bot_id' in data or 'bot_id' in data.get('message', {})
@@ -70,11 +92,13 @@ class OrbPlugin(Plugin):
       thread_id = data.get('ts')
 
       if text and thread_id:
+        text = self.clean_emojis(text)
         message = str.encode(text + '\n')
         hub_socket.send(message)
         prediction = hub_socket.recv(MAX_BYTES)
         normalized = float(prediction.decode().strip()) * 10
         output = OrbPlugin.format_output(normalized)
-        emoji = OrbPlugin.prediction_to_emoji(normalized)
+        emoji = OrbPlugin.prediction_to_emoji(normalized, OrbPlugin.erotic_emojis)
         self.send_message(output, thread_ts=thread_id)
         self.add_emoji(emoji, thread_id)
+        self.print_text(text, normalized)
