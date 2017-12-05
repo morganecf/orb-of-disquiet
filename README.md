@@ -9,17 +9,21 @@ Rotten Tomatoes sentiment (classification): `java -jar prediction_server.jar -m 
 Reddit sentiment: `java -jar prediction_server.jar -m <best-reddit-model.jar>`  
 Hub models: `java -jar prediction_server.jar -m <best-hub-model.jar>`
 
-### Run simple Python client
+### Simple Python client
 This fetches sentiment predictions on command line text input  
-`python2.7 simple_prediction_client.py`
+`python simple_prediction_client.py`
 
-### Run Slack client
+### Slack client
 This fetches sentiment predictions on incoming Slack messages  
-`python2.7 slack_prediction_client.py`
+`python slack_prediction_client.py`  
 
-### Run Slack --> Hue client
+### Simple speech recognition  
+Predicts sentiment on incoming speech reognized by the Google Speech API.  
+`python simple_voice_predictions.py`  
+
+### Slack --> Hue
 This fetches sentiment predictions on incoming Slack messages and changes Hue accordingly.  
-`python2.7 slack_sentiment_to_hue.py`
+`python slack_to_hue.py`
 
 ### Run responsive Slack Python client
 This fetches sentiment predictions on incoming Slack messages and sends them back to the channel  
