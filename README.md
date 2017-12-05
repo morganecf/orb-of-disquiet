@@ -4,10 +4,10 @@ An emotionally sensitive Hue bulb.
 ### Run prediction server
 This will load the jar model and listen for incoming text. Jar is used instead of my own model because DR models are superior, but DR predictions via the API are too slow for this use case.  
 
-Rotten Tomatoes sentiment (regression GLM blender): `java jar -m 5a207fa7eeb38c357a32689f.jar`  
-Rotten Tomatoes sentiment (classification): `java jar -m <best-RT-classification-model.jar>`  
-Reddit sentiment: `java jar -m <best-reddit-model.jar>`  
-Hub models: `java jar -m <best-hub-model.jar>`
+Rotten Tomatoes sentiment (regression GLM blender): `java -jar prediction_server.jar -m 5a207fa7eeb38c357a32689f.jar`  
+Rotten Tomatoes sentiment (classification): `java -jar prediction_server.jar -m <best-RT-classification-model.jar>`  
+Reddit sentiment: `java -jar prediction_server.jar -m <best-reddit-model.jar>`  
+Hub models: `java -jar prediction_server.jar -m <best-hub-model.jar>`
 
 ### Run simple Python client
 This fetches sentiment predictions on command line text input  
