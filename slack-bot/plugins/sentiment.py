@@ -5,14 +5,22 @@ import re
 import json
 import math
 import socket
+from hue import Orb, scaler
 from termcolor import colored
 from rtmbot.core import Plugin, Job
 
 
+HUE_IP = '10.0.0.196'
 HOST = 'localhost'
 RT_PORT = 9000
 HUB_PORT = 9090
 MAX_BYTES = 1024;
+
+orb = Orb(HUE_IP)
+orb.connect()
+orb.reset()
+
+print('Connected to Hue')
 
 slack_credentials = json.load(open('../slack_credentials.json'))
 bot_id = slack_credentials['zorg_bot_id']
@@ -28,6 +36,7 @@ rt_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 rt_socket.connect((HOST, RT_PORT))
 
 print('Connected to Rotten Tomatoes Sentiment prediction server')
+
 
 class OrbPlugin(Plugin):
   erotic_emojis = [
@@ -107,6 +116,9 @@ class OrbPlugin(Plugin):
           normalized = float(prediction.decode().strip()) * 10
           emoji_set = OrbPlugin.erotic_emojis
           output = OrbPlugin.format_hub_score(normalized)
+
+          # Update hue (maintains a moving average)
+          orb.emote(normalized / 10)
         else:
           rt_socket.send(message)
           prediction = rt_socket.recv(MAX_BYTES)

@@ -56,7 +56,7 @@ class Orb:
     self.bridge.connect()
 
   def set_color(self, xy, t=1):
-    self.bridge.set_light(self.id, 'xy', xy, transitiontime=3)
+    self.bridge.set_light(self.id, 'xy', xy, transitiontime=1)
 
   def set_brightness(self, bri):
     self.bridge.set_light(self.id, 'bri', int(bri))
