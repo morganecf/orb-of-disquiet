@@ -10,7 +10,8 @@ from termcolor import colored
 from rtmbot.core import Plugin, Job
 
 
-HUE_IP = '10.0.0.196'
+# HUE_IP = '10.0.0.196'
+HUE_IP = '192.168.0.29'
 HOST = 'localhost'
 RT_PORT = 9000
 HUB_PORT = 9090

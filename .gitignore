@@ -14,3 +14,4 @@ prediction-server/prediction_server/target/
 prediction-server/__pycache__/
 slack-bot/rtmbot.conf
 slack-bot/rtmbot.log
+venv/
